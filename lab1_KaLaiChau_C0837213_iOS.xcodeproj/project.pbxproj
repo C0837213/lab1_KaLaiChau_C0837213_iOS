@@ -13,6 +13,7 @@
 		D4E429132797976800009B83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E429112797976800009B83 /* Main.storyboard */; };
 		D4E429152797976C00009B83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E429142797976C00009B83 /* Assets.xcassets */; };
 		D4E429182797976C00009B83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E429162797976C00009B83 /* LaunchScreen.storyboard */; };
+		D4E429232797979800009B83 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E429222797979800009B83 /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D4E429142797976C00009B83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4E429172797976C00009B83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4E429192797976C00009B83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4E429222797979800009B83 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +58,40 @@
 		D4E4290A2797976800009B83 /* lab1_KaLaiChau_C0837213_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D4E429212797978100009B83 /* controller */,
+				D4E429202797977D00009B83 /* model */,
+				D4E4291F2797977300009B83 /* view */,
 				D4E4290B2797976800009B83 /* AppDelegate.swift */,
 				D4E4290D2797976800009B83 /* SceneDelegate.swift */,
-				D4E4290F2797976800009B83 /* ViewController.swift */,
-				D4E429112797976800009B83 /* Main.storyboard */,
 				D4E429142797976C00009B83 /* Assets.xcassets */,
 				D4E429162797976C00009B83 /* LaunchScreen.storyboard */,
 				D4E429192797976C00009B83 /* Info.plist */,
 			);
 			path = lab1_KaLaiChau_C0837213_iOS;
+			sourceTree = "<group>";
+		};
+		D4E4291F2797977300009B83 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				D4E429112797976800009B83 /* Main.storyboard */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		D4E429202797977D00009B83 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				D4E429222797979800009B83 /* Game.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		D4E429212797978100009B83 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				D4E4290F2797976800009B83 /* ViewController.swift */,
+			);
+			path = controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +168,7 @@
 				D4E429102797976800009B83 /* ViewController.swift in Sources */,
 				D4E4290C2797976800009B83 /* AppDelegate.swift in Sources */,
 				D4E4290E2797976800009B83 /* SceneDelegate.swift in Sources */,
+				D4E429232797979800009B83 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
