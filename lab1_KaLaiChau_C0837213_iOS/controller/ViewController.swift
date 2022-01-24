@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     var boardState:[Int?] = []
     let game = Game(oScore: 0, xScore: 0, turn: 0, currentPlayer: 0, gameState: true)
     lazy var buttons:[UIButton] = [btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8]
+    var lastPosition: Int? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,7 @@ class ViewController: UIViewController {
 
         //record current board state
         self.boardState[sender.tag] = game.currentPlayer
+        self.lastPosition = sender.tag
         
         //determine winner
         let result = game.winner(boardState: boardState, turn: game.turn)
@@ -113,6 +115,33 @@ class ViewController: UIViewController {
             default:
                 break
         }
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if event?.subtype == .motionShake {
+            reverseLastStep()
+        }
+    }
+    
+    private func reverseLastStep () {
+        //change number of turn
+        game.turn -= 1
+
+        //record current board state
+        self.boardState[lastPosition!] = nil
+
+        //reove the image of certain button
+        buttons[lastPosition!].setImage(UIImage(named: ""), for: .normal)
+        
+        //change back current player, either 0 or 1
+        if game.currentPlayer == 0 {
+            game.currentPlayer = 1
+        }else{
+            game.currentPlayer = 0
+        }
+        
+        //enable certain button
+        buttons[lastPosition!].isEnabled = true
     }
     
     private func reset () {
