@@ -34,10 +34,10 @@ class Game {
         [2,4,6]
     ]
 
-    func winner (boardState:[Int?], turn:Int)->String {
+    func winner (boardState:[Int], turn:Int)->String {
         var result:String = ""
         for pattern in winningPattern {
-            if (boardState[pattern[0]] != nil &&
+            if (boardState[pattern[0]] != 3 &&
                 boardState[pattern[0]] == boardState[pattern[1]] &&
                 boardState[pattern[1]] == boardState[pattern[2]]){
                 result = "true"

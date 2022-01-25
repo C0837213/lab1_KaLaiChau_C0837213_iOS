@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
-
+    
+    //context
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     @IBOutlet weak var xScoreLabel: UILabel!
     @IBOutlet weak var oScoreLabel: UILabel!
     @IBOutlet weak var btn0: UIButton!
@@ -22,10 +26,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var btn8: UIButton!
     @IBOutlet weak var alertText: UILabel!
     
-    var boardState:[Int?] = []
+    var boardState:[Int] = []
     let game = Game(oScore: 0, xScore: 0, turn: 0, currentPlayer: 0, gameState: true)
     lazy var buttons:[UIButton] = [btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8]
     var lastPosition: Int? = nil
+    var gameRecord = [GameRecord]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,9 +44,9 @@ class ViewController: UIViewController {
         
         //set initial state of board
         boardState = [
-            nil,nil,nil,
-            nil,nil,nil,
-            nil,nil,nil
+            3,3,3,
+            3,3,3,
+            3,3,3
         ]
         
         //create gesture recognizer
@@ -51,6 +56,9 @@ class ViewController: UIViewController {
             swipeGesture.direction = direction
             view.addGestureRecognizer(swipeGesture)
         }
+        
+        fetchData()
+        print(gameRecord)
     }
     
     
@@ -79,8 +87,6 @@ class ViewController: UIViewController {
             }
             game.gameState = false
         }else if result == "draw"{
-            game.gameState = false
-        }else if result == "false" && game.turn == 9{
             game.gameState = false
         }
         
@@ -128,7 +134,7 @@ class ViewController: UIViewController {
         game.turn -= 1
 
         //record current board state
-        self.boardState[lastPosition!] = nil
+        self.boardState[lastPosition!] = 3
 
         //reove the image of certain button
         buttons[lastPosition!].setImage(UIImage(named: ""), for: .normal)
@@ -153,9 +159,9 @@ class ViewController: UIViewController {
 
         //initialize board state
         self.boardState = [
-            nil,nil,nil,
-            nil,nil,nil,
-            nil,nil,nil
+            3,3,3,
+            3,3,3,
+            3,3,3
         ]
         
         //enable all button
@@ -166,6 +172,66 @@ class ViewController: UIViewController {
         
         //remove alert
         self.alertText.text = ""
+    }
+    
+    @IBAction func handleLoadButtonOnClick(_ sender: UIBarButtonItem) {
+        fetchData()
+        boardState = self.gameRecord[0].boardState!
+        print(boardState)
+        game.oScore = Int(self.gameRecord[0].oScore)
+        game.xScore = Int(self.gameRecord[0].xScore)
+        oScoreLabel.text = "\(game.oScore)"
+        xScoreLabel.text = "\(game.xScore)"
+        game.currentPlayer = Int(self.gameRecord[0].currentPlayer)
+        for (state,i) in boardState.enumerated() {
+            if state == 0{
+                buttons[i].setImage(UIImage(named: "circle"), for: .normal)
+                buttons[i].isEnabled = false
+            }else if state == 1{
+                buttons[i].setImage(UIImage(named: "cross"), for: .normal)
+                buttons[i].isEnabled = false
+            }else{
+                buttons[i].setImage(UIImage(named: ""), for: .normal)
+                buttons[i].isEnabled = true
+            }
+        }
+        alertText.text = ""
+    }
+    
+    @IBAction func handleSaveBtnOnClick(_ sender: UIBarButtonItem) {
+        if self.gameRecord.count == 0 {
+            let defaultRow = GameRecord(context: context)
+            defaultRow.boardState = boardState
+            defaultRow.xScore = 0
+            defaultRow.oScore = 0
+            gameRecord.append(defaultRow)
+            saveData()
+            fetchData()
+        }
+        self.gameRecord[0].boardState = boardState
+        self.gameRecord[0].oScore = Int16(game.oScore)
+        self.gameRecord[0].xScore = Int16(game.xScore)
+        self.gameRecord[0].currentPlayer = Int16(game.currentPlayer)
+        saveData()
+    }
+    
+    private func fetchData () {
+        let request:NSFetchRequest<GameRecord> = GameRecord.fetchRequest()
+        request.fetchLimit = 1
+        do {
+            self.gameRecord = try context.fetch(request)
+        } catch {
+            print("Error load items ... \(error.localizedDescription)")
+        }
+    }
+    
+    private func saveData () {
+        do {
+            try context.save()
+        }
+        catch {
+            print("Error saving folders .. \(error.localizedDescription)")
+        }
     }
 }
 
