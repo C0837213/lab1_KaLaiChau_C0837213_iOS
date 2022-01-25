@@ -174,7 +174,7 @@ class ViewController: UIViewController {
         self.alertText.text = ""
     }
     
-    @IBAction func handleLoadButtonOnClick(_ sender: UIBarButtonItem) {
+    @IBAction func handleLoadBtn(_ sender: Any) {
         fetchData()
         boardState = self.gameRecord[0].boardState!
         print(boardState)
@@ -183,22 +183,24 @@ class ViewController: UIViewController {
         oScoreLabel.text = "\(game.oScore)"
         xScoreLabel.text = "\(game.xScore)"
         game.currentPlayer = Int(self.gameRecord[0].currentPlayer)
-        for (state,i) in boardState.enumerated() {
+        for (i,state) in boardState.enumerated() {
             if state == 0{
+                print("this is circle")
                 buttons[i].setImage(UIImage(named: "circle"), for: .normal)
                 buttons[i].isEnabled = false
             }else if state == 1{
+                print("this is cross")
                 buttons[i].setImage(UIImage(named: "cross"), for: .normal)
                 buttons[i].isEnabled = false
-            }else{
-                buttons[i].setImage(UIImage(named: ""), for: .normal)
+            }else if state == 3{
+                print("this is nil")
+                buttons[i].setImage(nil, for: .normal)
                 buttons[i].isEnabled = true
             }
         }
         alertText.text = ""
     }
-    
-    @IBAction func handleSaveBtnOnClick(_ sender: UIBarButtonItem) {
+    @IBAction func handleSaveBtn(_ sender: Any) {
         if self.gameRecord.count == 0 {
             let defaultRow = GameRecord(context: context)
             defaultRow.boardState = boardState
